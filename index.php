@@ -32,7 +32,7 @@ $resultado = $stmt->get_result();
 <main>
     <h2>Cadastre um Novo Brinquedo</h2>
 
-    <form " method="POST">
+    <form action="public/cadastrar.php" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
 
