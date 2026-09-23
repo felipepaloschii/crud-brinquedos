@@ -12,6 +12,7 @@ Inicie Apache e MySQL no XAMPP. <br>
 Abra o phpMyAdmin. <br>
 
 Crie o banco de dados brinquedos. <br>
+
 Importe o arquivo db/crud_brinquedo.sql. <br>
 
 Acesse no navegador:
