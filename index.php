@@ -13,7 +13,6 @@ $stmt->execute();
 
 $resultado = $stmt->get_result();
 
-$brinquedos = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>
 
 
@@ -33,7 +32,7 @@ $brinquedos = $resultado->fetch_all(MYSQLI_ASSOC);
 <main>
     <h2>Cadastre um Novo Brinquedo</h2>
 
-    <form action="public/cadastrar.php" method="POST">
+    <form " method="POST">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
 
@@ -55,23 +54,52 @@ $brinquedos = $resultado->fetch_all(MYSQLI_ASSOC);
 
     <div>
         <h2>Lista de Brinquedos Cadastrados</h2>
-        <table>
-            <thead>
-                <tr>
-                    <td><?php echo $brinquedos['id']; ?></td>
-                    <td><?php echo $brinquedos['nome']; ?></td>
-                    <td><?php echo $brinquedos['categoria']; ?></td>
-                    <td><?php echo $brinquedos['faixa_etaria']; ?></td>
-                    <td><?php echo $brinquedos['preco']; ?></td>
-                    <td><?php echo $brinquedos['quantidade']; ?></td>
-                    <td>
-                        <a href="public/edit.php?id=<?php echo $brinquedos['id']; ?>">Editar</a>
-                        <a href="public/delete.php?id=<?php echo $brinquedos['id']; ?>">Excluir</a>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <table border="1">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Faixa Etária</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <?php while ($brinquedo = $resultado->fetch_assoc()) { ?>
+
+            <tr>
+
+                <td><?= $brinquedo['id'] ?></td>
+
+                <td> <?= htmlspecialchars($brinquedo['nome']) ?></td>
+
+                <td> <?= htmlspecialchars($brinquedo['categoria']) ?></td>
+
+                <td><?= htmlspecialchars($brinquedo['faixa_etaria']) ?></td>
+
+                <td>R$ <?= number_format($brinquedo['preco']) ?></td>
+
+                <td><?= $brinquedo['quantidade'] ?></td>
+
+                <td>
+                    <a href="public/edit.php?id=<?= $brinquedo['id'] ?>">Editar</a>
+
+                    <a href="public/delete.php?id=<?= $brinquedo['id'] ?>">Excluir</a>
+
+                </td>
+
+            </tr>
+
+        <?php } ?>
+
+    </tbody>
+
+</table>
     </div>
 </main>
 </body>

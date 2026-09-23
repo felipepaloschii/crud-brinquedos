@@ -13,5 +13,5 @@ $stmt->execute();
 
 $resultado = $stmt->get_result();
 
-$brinquedos = $resultado->fetch_all(MYSQLI_ASSOC);
+$brinquedo = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>

@@ -2,11 +2,48 @@
 
 include "../infra/conexao.php";
 
-$id = $_GET['id'];
-$sql = "SELECT * FROM brinquedos WHERE id = ?";
-$resultado = mysqli_query($conexao, $sql);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $nome = trim($_POST['nome']);
+    $categoria = trim($_POST['categoria']);
+    $faixa = trim($_POST['faixa']);
+    $preco = trim($_POST['preco']);
+    $quantidade = trim($_POST['quantidade']);
 
-$brinquedo = mysqli_fetch_assoc($resultado);
+    $sql = "UPDATE brinquedos SET nome = ?, categoria = ?, faixa_etaria = ?, preco = ?, quantidade = ? WHERE id = ?";
+    $stmt = $conexao->prepare($sql);
+
+     $stmt->bind_param(
+        "sssddi",
+        $nome,
+        $categoria,
+        $faixa,
+        $preco,
+        $quantidade,
+        $id
+    );
+
+    $stmt->execute();
+
+    header("Location: ../index.php");
+
+    exit;
+}
+
+$id = $_GET['id'];
+
+$sql = "SELECT * FROM brinquedos WHERE id = ?";
+
+$stmt = $conexao->prepare($sql);
+
+$stmt->bind_param("i", $id);
+
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+$brinquedo = $resultado->fetch_assoc();
+
 
 ?>
 
@@ -24,7 +61,7 @@ $brinquedo = mysqli_fetch_assoc($resultado);
 
 <main>
     <h2>Editar Brinquedo</h2> 
-    <form action="public/atualizar.php" method="POST">
+    <form method="POST">
         <input type="hidden" name="id" value="<?php echo $brinquedo['id']; ?>">
 
         <label for="nome">Nome:</label>
@@ -42,7 +79,7 @@ $brinquedo = mysqli_fetch_assoc($resultado);
         <label for="quantidade">Quantidade em Estoque:</label>
         <input type="number" id="quantidade" name="quantidade" min="0" value="<?php echo $brinquedo['quantidade']; ?>" required>
 
-        <button type="submit">Atualizar</button>
+        <button type="submit">Editar</button>
 </main>
 </body>
 </html>
