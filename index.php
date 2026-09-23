@@ -1,3 +1,11 @@
+<?php
+
+include "../infra/conexao.php";
+$brinquedo = mysqli_query($conexao, "SELECT * FROM brinquedo");
+?>
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,11 +46,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Categoria</th>
-                    <th>Faixa Etária</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
+                    <td><?php echo $brinquedo['nome']; ?></td>
+                    <td><?php echo $brinquedo['categoria']; ?></td>
+                    <td><?php echo $brinquedo['faixa_etaria']; ?></td>
+                    <td><?php echo $brinquedo['preco']; ?></td>
+                    <td><?php echo $brinquedo['quantidade']; ?></td>
+                    <td>
+                        <a href="public/edit.php?id=<?php echo $brinquedo['id']; ?>">Editar</a>
+                        <a href="public/excluir.php?id=<?php echo $brinquedo['id']; ?>">Excluir</a>
                 </tr>
             </thead>
             <tbody>
