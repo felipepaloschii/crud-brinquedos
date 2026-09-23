@@ -1,7 +1,19 @@
 <?php
 
-include "../infra/conexao.php";
-$brinquedo = mysqli_query($conexao, "SELECT * FROM brinquedo");
+include "infra/conexao.php";
+$sql = "SELECT * FROM brinquedos";
+
+$stmt = $conexao->prepare($sql);
+
+if (!$stmt) {
+    die("Erro ao preparar o brinquedo.");
+}
+
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+$brinquedos = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>
 
 
@@ -46,14 +58,15 @@ $brinquedo = mysqli_query($conexao, "SELECT * FROM brinquedo");
         <table>
             <thead>
                 <tr>
-                    <td><?php echo $brinquedo['nome']; ?></td>
-                    <td><?php echo $brinquedo['categoria']; ?></td>
-                    <td><?php echo $brinquedo['faixa_etaria']; ?></td>
-                    <td><?php echo $brinquedo['preco']; ?></td>
-                    <td><?php echo $brinquedo['quantidade']; ?></td>
+                    <td><?php echo $brinquedos['id']; ?></td>
+                    <td><?php echo $brinquedos['nome']; ?></td>
+                    <td><?php echo $brinquedos['categoria']; ?></td>
+                    <td><?php echo $brinquedos['faixa_etaria']; ?></td>
+                    <td><?php echo $brinquedos['preco']; ?></td>
+                    <td><?php echo $brinquedos['quantidade']; ?></td>
                     <td>
-                        <a href="public/edit.php?id=<?php echo $brinquedo['id']; ?>">Editar</a>
-                        <a href="public/excluir.php?id=<?php echo $brinquedo['id']; ?>">Excluir</a>
+                        <a href="public/edit.php?id=<?php echo $brinquedos['id']; ?>">Editar</a>
+                        <a href="public/delete.php?id=<?php echo $brinquedos['id']; ?>">Excluir</a>
                 </tr>
             </thead>
             <tbody>
